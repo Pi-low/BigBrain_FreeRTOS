@@ -9,20 +9,7 @@
             <sourceEncoding>UTF-8</sourceEncoding>
             <make-dep-projects/>
             <sourceRootList>
-                <sourceRootElem>Sources/FreeRTOS</sourceRootElem>
-                <sourceRootElem>Sources/FreeRTOS/include</sourceRootElem>
-                <sourceRootElem>Sources/FreeRTOS/portable/Common</sourceRootElem>
-                <sourceRootElem>Sources/FreeRTOS/portable/MPLAB</sourceRootElem>
-                <sourceRootElem>Sources/FreeRTOS/portable/MemMang</sourceRootElem>
-                <sourceRootElem>Sources/BSP</sourceRootElem>
-                <sourceRootElem>Sources/BSP/CAN</sourceRootElem>
-                <sourceRootElem>Sources/BSP/CONFIG</sourceRootElem>
-                <sourceRootElem>Sources/BSP/CORE</sourceRootElem>
-                <sourceRootElem>Sources/BSP/CORE/MCU</sourceRootElem>
-                <sourceRootElem>Sources/BSP/IO</sourceRootElem>
-                <sourceRootElem>Sources/BSP/LIN</sourceRootElem>
-                <sourceRootElem>Sources/BSP/UART</sourceRootElem>
-                <sourceRootElem>Sources/APP</sourceRootElem>
+                <sourceRootElem>.</sourceRootElem>
             </sourceRootList>
             <confList>
                 <confElem>

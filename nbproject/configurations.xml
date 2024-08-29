@@ -13,6 +13,7 @@
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
                    projectFiles="true">
+      <itemPath>Linker_App.gld</itemPath>
     </logicalFolder>
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
@@ -91,20 +92,7 @@
     </logicalFolder>
   </logicalFolder>
   <sourceRootList>
-    <Elem>Sources/FreeRTOS</Elem>
-    <Elem>Sources/FreeRTOS/include</Elem>
-    <Elem>Sources/FreeRTOS/portable/Common</Elem>
-    <Elem>Sources/FreeRTOS/portable/MPLAB</Elem>
-    <Elem>Sources/FreeRTOS/portable/MemMang</Elem>
-    <Elem>Sources/BSP</Elem>
-    <Elem>Sources/BSP/CAN</Elem>
-    <Elem>Sources/BSP/CONFIG</Elem>
-    <Elem>Sources/BSP/CORE</Elem>
-    <Elem>Sources/BSP/CORE/MCU</Elem>
-    <Elem>Sources/BSP/IO</Elem>
-    <Elem>Sources/BSP/LIN</Elem>
-    <Elem>Sources/BSP/UART</Elem>
-    <Elem>Sources/APP</Elem>
+    <Elem>.</Elem>
   </sourceRootList>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
