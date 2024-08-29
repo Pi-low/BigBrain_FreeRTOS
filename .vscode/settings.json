@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "mpu_wrappers.h": "c",
+        "xc.h": "c",
+        "p33ep512gm706.h": "c",
+        "stdint.h": "c"
+    }
+}

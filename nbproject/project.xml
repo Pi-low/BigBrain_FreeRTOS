@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://www.netbeans.org/ns/project/1">
+    <type>com.microchip.mplab.nbide.embedded.makeproject</type>
+    <configuration>
+        <data xmlns="http://www.netbeans.org/ns/make-project/1">
+            <name>RTOS_BigBrain</name>
+            <creation-uuid>dcbb51c0-a05d-46de-b252-ec1f75f56940</creation-uuid>
+            <make-project-type>0</make-project-type>
+            <sourceEncoding>UTF-8</sourceEncoding>
+            <make-dep-projects/>
+            <sourceRootList>
+                <sourceRootElem>Sources/FreeRTOS</sourceRootElem>
+                <sourceRootElem>Sources/FreeRTOS/include</sourceRootElem>
+                <sourceRootElem>Sources/FreeRTOS/portable/Common</sourceRootElem>
+                <sourceRootElem>Sources/FreeRTOS/portable/MPLAB</sourceRootElem>
+                <sourceRootElem>Sources/FreeRTOS/portable/MemMang</sourceRootElem>
+                <sourceRootElem>Sources/BSP</sourceRootElem>
+                <sourceRootElem>Sources/BSP/CAN</sourceRootElem>
+                <sourceRootElem>Sources/BSP/CONFIG</sourceRootElem>
+                <sourceRootElem>Sources/BSP/CORE</sourceRootElem>
+                <sourceRootElem>Sources/BSP/CORE/MCU</sourceRootElem>
+                <sourceRootElem>Sources/BSP/IO</sourceRootElem>
+                <sourceRootElem>Sources/BSP/LIN</sourceRootElem>
+                <sourceRootElem>Sources/BSP/UART</sourceRootElem>
+                <sourceRootElem>Sources/APP</sourceRootElem>
+            </sourceRootList>
+            <confList>
+                <confElem>
+                    <name>default</name>
+                    <type>2</type>
+                </confElem>
+            </confList>
+            <formatting>
+                <project-formatting-style>false</project-formatting-style>
+            </formatting>
+        </data>
+    </configuration>
+</project>
