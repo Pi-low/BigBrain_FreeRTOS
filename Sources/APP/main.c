@@ -8,14 +8,14 @@
  * @copyright Copyright (c) 2024
  * 
  ****************************************************************************/
-// #include <xc.h>
+#include <xc.h>
 
-// #include "FreeRTOS.h"
-// #include "task.h"
-// #include "queue.h"
-// #include "croutine.h"
+#include "FreeRTOS.h"
+#include "task.h"
+#include "queue.h"
+#include "croutine.h"
 #include "system.h"
-
+#include "uart_drv.h"
 
 void main(void)
 {
