@@ -1,7 +1,7 @@
 #ifndef _CONFIG_H_
 #define _CONFIG_H_
 
-#define _FOSC_2_		32000000L
+#include "FreeRTOSConfig.h"
 
 typedef enum {
 	CeWarning			= 1,

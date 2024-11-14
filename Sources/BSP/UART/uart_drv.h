@@ -38,5 +38,6 @@ extern TeUartDrv_eRetval eUartDrv_eInit(TstUartDrv_eConfig* FpstUartConfig);
 extern TeUartDrv_eRetval eUartDrv_eTransmit(const uint8_t *Fpu8TxBuffer, uint16_t u16Fu16Size);
 extern TeUartDrv_eRetval eUartDrv_eReceive(uint8_t* Fpu8TxBuffer, uint16_t* Fu16ReceiveSize);
 extern TeUartDrv_eRetval eUartDrv_eDataAvailable(void);
+extern TeUartDrv_eRetval eUartDrv_ePrint(char* FpcPrintText);
 
 #endif //_UART_DRV_H_
