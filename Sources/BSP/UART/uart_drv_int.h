@@ -7,6 +7,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "FreeRTOS.h"
+#include "task.h"
 #include "uart_drv_cfg.h"
 #include "uart_drv.h"
 

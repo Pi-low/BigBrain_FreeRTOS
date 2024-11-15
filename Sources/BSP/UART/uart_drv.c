@@ -44,6 +44,8 @@ TeUartDrv_eRetval eUartDrv_eInit(TstUartDrv_eConfig* FpstUartConfig) {
 		U1MODEbits.UARTEN = 1;   // enabling UART ON bit
 		U1STAbits.UTXEN = 1;
 		eRetVal = CeUartDrv_eSuccess;
+		IEC0bits.U1RXIE = 1;
+		IFS0bits.U1RXIF = 0;
 		u8IsConfigured = 1;
 	}
 
@@ -62,43 +64,42 @@ TeUartDrv_eRetval eUartDrv_eTransmit(const uint8_t* Fpu8TxBuffer, uint16_t u16Fu
 		uint16_t u16Index = 0;
 		uint8_t* pu8Data = (uint8_t*) Fpu8TxBuffer;
 		while (u16Index < u16Fu16Size) {
-			while (U1STAbits.UTXBF); // to be protected
 			U1TXREG = *pu8Data;
 			u16Index++;
 			pu8Data++;
-		}
-		if (U1STAbits.UTXBF) {
-			eRet = CeUartDrv_eWarning;
+			while (U1STAbits.UTXBF); // to be protected
 		}
 	}
 
 	return(eRet);
 }
 
-TeUartDrv_eRetval eUartDrv_eReceive(uint8_t* Fpu8TxBuffer, uint16_t* Fu16ReceiveSize) {
+TeUartDrv_eRetval eUartDrv_eReceive(uint8_t* Fpu8RxBuffer, uint16_t* Fu16ReceiveSize) {
 	TeUartDrv_eRetval eRet = CeUartDrv_eSuccess;
 	
 	if (!u8IsConfigured) {
 		eRet = CeUartDrv_eNotConfigured;
 	}
-	else if ((Fpu8TxBuffer == NULL) || (Fu16ReceiveSize == NULL)) {
+	else if ((Fpu8RxBuffer == NULL) || (Fu16ReceiveSize == NULL)) {
 		eRet = CeUartDrv_eBadParameter;
 	}
 	else if (*Fu16ReceiveSize == 0) {
 		eRet = CeUartDrv_eBadParameter;
 	}
+	else if (eDataQueueDataAvailable(&stUartDrv_iRxQueue) != CeQueue_Ok) {
+		eRet = CeUartDrv_eNoDataAvailable;
+	}
 	else {
+		uint8_t* pu8Rdx = Fpu8RxBuffer;
 		uint16_t u16Cnt = 0;
 		TeQueueRet eQRet;
 		do {
-			eQRet = eDataQueueGet(&stUartDrv_iRxQueue, Fpu8TxBuffer);
-			u16Cnt += (eQRet == CeQueue_Ok) ? 1 : 0;
+			eQRet = eDataQueueGet(&stUartDrv_iRxQueue, pu8Rdx);
+			u16Cnt++;
+			pu8Rdx++;
 		} while ((u16Cnt < *Fu16ReceiveSize) && (eQRet == CeQueue_Ok));
 
 		*Fu16ReceiveSize = u16Cnt;
-		if (!u16Cnt) {
-			eRet = CeUartDrv_eNoDataAvailable;
-		}
 	}
 
 	return(eRet);
@@ -120,9 +121,11 @@ TeUartDrv_eRetval eUartDrv_eDataAvailable(void) {
  * INTERNAL
  ****************************************************************************/
 void __attribute__((interrupt, no_auto_psv)) _U1RXInterrupt(void) {
+	// portENTER_CRITICAL();
 	IFS0bits.U1RXIF = 0;
 	uint8_t u8data = U1RXREG;
 	eDataQueuePut(&stUartDrv_iRxQueue, u8data);
+	// portEXIT_CRITICAL();
 }
 
 static TeQueueRet eDataQueueInit(TstUartDrv_iQueue* FpstQueue, uint8_t* Fpu8Buffer, uint8_t Fu8Size) {
@@ -179,6 +182,10 @@ static TeQueueRet eDataQueueGet(TstUartDrv_iQueue* FpstQueue, uint8_t* Fpu8Data)
 		else if ((FpstQueue->pu8Head == FpstQueue->pu8Tail) && FpstQueue->u8Full) {
 			*Fpu8Data = *FpstQueue->pu8Head;
 			FpstQueue->u8Full = 0;
+		}
+		else
+		{
+			eRet = CeQueue_Error;
 		}
 	}
 	return(eRet);

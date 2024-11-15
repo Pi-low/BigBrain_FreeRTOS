@@ -22,22 +22,14 @@
 #include "Config.h"
 
 static void vApp_MainTask(void *pvParameters);
-TaskHandle_t xApp_Task01;
 
 void main(void)
 {
-	CLOCK_Initialize();
 	PIN_MANAGER_Initialize();
-	if (xTaskCreate(vApp_MainTask, "Main", configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY + 1, &xApp_Task01) != pdFALSE)  {
-		if (xApp_Task01 != NULL) {
-			xPortStartScheduler();
-		}
-	}
-
-	for (;;)
-	{
-		
-	}
+	CLOCK_Initialize();
+	// __builtin_enable_interrupts();
+	xTaskCreate(vApp_MainTask, "Main", configMINIMAL_STACK_SIZE*4, NULL, tskIDLE_PRIORITY+1, NULL);
+	vTaskStartScheduler();
 }
 
 // void vApplicationIdleHook( void )
@@ -48,13 +40,21 @@ static void vApp_MainTask(void *pvParameters) {
 	pvParameters = pvParameters;
 	TstUartDrv_eConfig stUartCfg = {115200, CeUartDrv_e8PN, CeUartDrv_eStop1Bit};
 	eUartDrv_eInit(&stUartCfg);
-	TickType_t xLastTick;
+	TickType_t xLastTick = xTaskGetTickCount();
 	char tcDebug[100] = {0};
+	char tcRxData[100] = {0};
+	uint16_t u16BuffLen = 0;
+	
 	for (;;)
 	{
-		xLastTick = xTaskGetTickCount();
+		xTaskDelayUntil(&xLastTick, 1000);
+		u16BuffLen = 100;
 		snprintf(tcDebug, 100, "Scheduler tick: %u\r\n", xLastTick);
 		eUartDrv_ePrint(tcDebug);
-		xTaskDelayUntil(&xLastTick, 1000);
+		if (eUartDrv_eReceive((uint8_t*)tcRxData, &u16BuffLen) == CeUartDrv_eSuccess) {
+			tcRxData[u16BuffLen] = 0;
+			snprintf(tcDebug, 100, "[RX] (%u) : %s\r\n", u16BuffLen, tcRxData);
+			eUartDrv_ePrint(tcDebug);
+		}
 	}
 }
