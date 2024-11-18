@@ -18,6 +18,6 @@
 #ifdef _DEBUG
 const char __attribute__((address(0x280), space(prog))) SWDescription[128] = __DATE__" "__TIME__" : BigBrain tester application";
 #else
-const char __attribute__((address(0x280), space(prog))) SWDescription[128] = __DATE__" "__TIME__" : BigBrain CAN GW application";
+const char __attribute__((address(0x280), space(prog))) SWDescription[128] = __DATE__" "__TIME__" : BigBrain FreeRTOS";
 #endif
 const uint16_t SWVersion __attribute__((address(0x300), space(prog))) = SW_VERSION;

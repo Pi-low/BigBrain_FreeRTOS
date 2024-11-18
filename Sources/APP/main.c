@@ -27,8 +27,8 @@ void main(void)
 {
 	PIN_MANAGER_Initialize();
 	CLOCK_Initialize();
-	// __builtin_enable_interrupts();
 	xTaskCreate(vApp_MainTask, "Main", configMINIMAL_STACK_SIZE*4, NULL, tskIDLE_PRIORITY+1, NULL);
+    __builtin_enable_interrupts();
 	vTaskStartScheduler();
 }
 
@@ -40,6 +40,7 @@ static void vApp_MainTask(void *pvParameters) {
 	pvParameters = pvParameters;
 	TstUartDrv_eConfig stUartCfg = {115200, CeUartDrv_e8PN, CeUartDrv_eStop1Bit};
 	eUartDrv_eInit(&stUartCfg);
+	eUartDrv_ePrint("Hello world !\r\n");
 	TickType_t xLastTick = xTaskGetTickCount();
 	char tcDebug[100] = {0};
 	char tcRxData[100] = {0};
@@ -47,7 +48,6 @@ static void vApp_MainTask(void *pvParameters) {
 	
 	for (;;)
 	{
-		xTaskDelayUntil(&xLastTick, 1000);
 		u16BuffLen = 100;
 		snprintf(tcDebug, 100, "Scheduler tick: %u\r\n", xLastTick);
 		eUartDrv_ePrint(tcDebug);
@@ -56,5 +56,6 @@ static void vApp_MainTask(void *pvParameters) {
 			snprintf(tcDebug, 100, "[RX] (%u) : %s\r\n", u16BuffLen, tcRxData);
 			eUartDrv_ePrint(tcDebug);
 		}
+		xTaskDelayUntil(&xLastTick, 1000);
 	}
 }
