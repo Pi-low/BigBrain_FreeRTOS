@@ -100,6 +100,10 @@
         <itemPath>Sources/FreeRTOS/tasks.c</itemPath>
         <itemPath>Sources/FreeRTOS/timers.c</itemPath>
       </logicalFolder>
+      <logicalFolder name="f1" displayName="FreeRTOS-Plus-CLI" projectFiles="true">
+        <itemPath>Sources/FreeRTOS-Plus-CLI/FreeRTOS_CLI.c</itemPath>
+        <itemPath>Sources/FreeRTOS-Plus-CLI/FreeRTOS_CLI.h</itemPath>
+      </logicalFolder>
     </logicalFolder>
   </logicalFolder>
   <sourceRootList>
@@ -166,7 +170,7 @@
         <property key="enable-unroll-loops" value="false"/>
         <property key="expand-pragma-config" value="false"/>
         <property key="extra-include-directories"
-                  value="Sources\FreeRTOS;Sources\FreeRTOS\include;Sources\FreeRTOS\portable\Common;Sources\FreeRTOS\portable\MemMang;Sources\FreeRTOS\portable\MPLAB;Sources\APP;Sources\BSP;Sources\BSP\UART;Sources\BSP\CONFIG;Sources\BSP\IO;Sources\BSP\VERSION;Sources\BSP\UTILS"/>
+                  value="Sources\FreeRTOS;Sources\FreeRTOS\include;Sources\FreeRTOS\portable\Common;Sources\FreeRTOS\portable\MemMang;Sources\FreeRTOS\portable\MPLAB;Sources\APP;Sources\BSP;Sources\BSP\UART;Sources\BSP\CONFIG;Sources\BSP\IO;Sources\BSP\VERSION;Sources\BSP\UTILS;Sources\FreeRTOS-Plus-CLI"/>
         <property key="isolate-each-function" value="false"/>
         <property key="keep-inline" value="false"/>
         <property key="oXC16gcc-align-arr" value="false"/>
@@ -267,7 +271,7 @@
       <C30Global>
         <property key="combine-sourcefiles" value="false"/>
         <property key="common-include-directories"
-                  value="Sources\FreeRTOS;Sources\FreeRTOS\include;Sources\FreeRTOS\portable\Common;Sources\FreeRTOS\portable\MemMang;Sources\FreeRTOS\portable\MPLAB;Sources\APP;Sources\BSP\CORE\MCU;Sources\BSP;Sources\BSP\UART;Sources\BSP\CONFIG;Sources\BSP\IO;Sources\BSP\VERSION;Sources\BSP\UTILS"/>
+                  value="Sources\FreeRTOS;Sources\FreeRTOS\include;Sources\FreeRTOS\portable\Common;Sources\FreeRTOS\portable\MemMang;Sources\FreeRTOS\portable\MPLAB;Sources\APP;Sources\BSP\CORE\MCU;Sources\BSP;Sources\BSP\UART;Sources\BSP\CONFIG;Sources\BSP\IO;Sources\BSP\VERSION;Sources\BSP\UTILS;Sources\FreeRTOS-Plus-CLI"/>
         <property key="dual-boot-partition" value="0"/>
         <property key="fast-math" value="false"/>
         <property key="generic-16-bit" value="false"/>
@@ -369,6 +373,10 @@
         <property key="programoptions.uselvpprogramming" value="false"/>
         <property key="voltagevalue" value="3.375"/>
       </ICD3PlatformTool>
+      <item path="Sources/FreeRTOS/portable/MemMang/heap_1.c"
+            ex="true"
+            overriding="false">
+      </item>
       <item path="Sources/FreeRTOS/portable/MemMang/heap_2.c"
             ex="true"
             overriding="false">
@@ -386,7 +394,7 @@
         </C30Global>
       </item>
       <item path="Sources/FreeRTOS/portable/MemMang/heap_3.c"
-            ex="true"
+            ex="false"
             overriding="false">
         <C30>
         </C30>
@@ -582,7 +590,7 @@
         <property key="enable-unroll-loops" value="false"/>
         <property key="expand-pragma-config" value="false"/>
         <property key="extra-include-directories"
-                  value="Sources\FreeRTOS;Sources\FreeRTOS\include;Sources\FreeRTOS\portable\Common;Sources\FreeRTOS\portable\MemMang;Sources\FreeRTOS\portable\MPLAB;Sources\APP;Sources\BSP;Sources\BSP\UART;Sources\BSP\CONFIG;Sources\BSP\IO;Sources\BSP\VERSION;Sources\BSP\UTILS"/>
+                  value="Sources\FreeRTOS;Sources\FreeRTOS\include;Sources\FreeRTOS\portable\Common;Sources\FreeRTOS\portable\MemMang;Sources\FreeRTOS\portable\MPLAB;Sources\APP;Sources\BSP;Sources\BSP\UART;Sources\BSP\CONFIG;Sources\BSP\IO;Sources\BSP\VERSION;Sources\BSP\UTILS;Sources\FreeRTOS-Plus-CLI"/>
         <property key="isolate-each-function" value="false"/>
         <property key="keep-inline" value="false"/>
         <property key="oXC16gcc-align-arr" value="false"/>
@@ -683,7 +691,7 @@
       <C30Global>
         <property key="combine-sourcefiles" value="false"/>
         <property key="common-include-directories"
-                  value="Sources\FreeRTOS;Sources\FreeRTOS\include;Sources\FreeRTOS\portable\Common;Sources\FreeRTOS\portable\MemMang;Sources\FreeRTOS\portable\MPLAB;Sources\APP;Sources\BSP\CORE\MCU;Sources\BSP;Sources\BSP\UART;Sources\BSP\CONFIG;Sources\BSP\IO;Sources\BSP\VERSION;Sources\BSP\UTILS"/>
+                  value="Sources\FreeRTOS;Sources\FreeRTOS\include;Sources\FreeRTOS\portable\Common;Sources\FreeRTOS\portable\MemMang;Sources\FreeRTOS\portable\MPLAB;Sources\APP;Sources\BSP\CORE\MCU;Sources\BSP;Sources\BSP\UART;Sources\BSP\CONFIG;Sources\BSP\IO;Sources\BSP\VERSION;Sources\BSP\UTILS;Sources\FreeRTOS-Plus-CLI"/>
         <property key="dual-boot-partition" value="0"/>
         <property key="fast-math" value="false"/>
         <property key="generic-16-bit" value="false"/>
@@ -785,6 +793,10 @@
         <property key="programoptions.uselvpprogramming" value="false"/>
         <property key="voltagevalue" value="3.25"/>
       </ICD3PlatformTool>
+      <item path="Sources/FreeRTOS/portable/MemMang/heap_1.c"
+            ex="true"
+            overriding="false">
+      </item>
       <item path="Sources/FreeRTOS/portable/MemMang/heap_2.c"
             ex="true"
             overriding="false">
@@ -802,7 +814,7 @@
         </C30Global>
       </item>
       <item path="Sources/FreeRTOS/portable/MemMang/heap_3.c"
-            ex="true"
+            ex="false"
             overriding="false">
         <C30>
         </C30>
