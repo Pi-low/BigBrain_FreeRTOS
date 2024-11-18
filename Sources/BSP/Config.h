@@ -3,6 +3,8 @@
 
 #include "FreeRTOSConfig.h"
 
+#define FLAG_CLI_MNG_ACTIVE	1
+
 typedef enum
 {
 	CeWarning = 1,
