@@ -13,18 +13,27 @@
 #include "uart_drv_cfg.h"
 #include "uart_drv.h"
 
-typedef enum{
+typedef enum
+{
 	CeQueue_Ok = 0,
 	CeQueue_Error = -1,
 	CeQueue_Full = -2
 } TeQueueRet;
 
-typedef struct {
-	uint8_t * pu8Head;
-	uint8_t * pu8Tail;
-	uint8_t * pu8Buffer;
+typedef struct
+{
+	uint8_t *pu8Head;
+	uint8_t *pu8Tail;
+	uint8_t *pu8Buffer;
 	uint8_t u8Full;
 	uint8_t u8Size;
 } TstUartDrv_iQueue;
+
+typedef struct
+{
+	uint8_t u8ConfigFlag;
+	SemaphoreHandle_t xSemaRx;
+	SemaphoreHandle_t xSemaTx;
+} TstUartDrv_iHandle;
 
 #endif //_UART_DRV_INT_H

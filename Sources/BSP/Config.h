@@ -3,13 +3,15 @@
 
 #include "FreeRTOSConfig.h"
 
-typedef enum {
-	CeWarning			= 1,
-	CeSuccess			= 0,
-	CeNotInitialized	= -1,
-	CeBadParameter		= -2,
-	CeNotConfigured 	= -3,
-	CeDrvError			= -4
+typedef enum
+{
+	CeWarning = 1,
+	CeSuccess = 0,
+	CeTimeout = -1,
+	CeNotInitialized = -2,
+	CeBadParameter = -3,
+	CeNotConfigured = -4,
+	CeDrvError = -5
 } TeRetVal;
 
 #endif //_CONFIG_H_

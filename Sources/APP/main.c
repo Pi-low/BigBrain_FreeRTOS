@@ -1,12 +1,12 @@
 /****************************************************************************
  * @file main.c
  * @author Nello (nello.chom@protonmail.com)
- * @brief 
+ * @brief
  * @version 0.1
  * @date 2024-08-21
- * 
+ *
  * @copyright Copyright (c) 2024
- * 
+ *
  ****************************************************************************/
 #include <xc.h>
 #include <stdio.h>
@@ -27,8 +27,8 @@ void main(void)
 {
 	PIN_MANAGER_Initialize();
 	CLOCK_Initialize();
-	xTaskCreate(vApp_MainTask, "Main", configMINIMAL_STACK_SIZE*4, NULL, tskIDLE_PRIORITY+1, NULL);
-    __builtin_enable_interrupts();
+	xTaskCreate(vApp_MainTask, "Main", configMINIMAL_STACK_SIZE * 4, NULL, tskIDLE_PRIORITY + 1, NULL);
+	__builtin_enable_interrupts();
 	vTaskStartScheduler();
 }
 
@@ -36,7 +36,8 @@ void main(void)
 // {
 // }
 
-static void vApp_MainTask(void *pvParameters) {
+static void vApp_MainTask(void *pvParameters)
+{
 	pvParameters = pvParameters;
 	TstUartDrv_eConfig stUartCfg = {115200, CeUartDrv_e8PN, CeUartDrv_eStop1Bit};
 	eUartDrv_eInit(&stUartCfg);
@@ -45,13 +46,14 @@ static void vApp_MainTask(void *pvParameters) {
 	char tcDebug[100] = {0};
 	char tcRxData[100] = {0};
 	uint16_t u16BuffLen = 0;
-	
+
 	for (;;)
 	{
 		u16BuffLen = 100;
 		snprintf(tcDebug, 100, "Scheduler tick: %u\r\n", xLastTick);
 		eUartDrv_ePrint(tcDebug);
-		if (eUartDrv_eReceive((uint8_t*)tcRxData, &u16BuffLen) == CeUartDrv_eSuccess) {
+		if (eUartDrv_eReceive((uint8_t *)tcRxData, &u16BuffLen, 0u) == CeUartDrv_eSuccess)
+		{
 			tcRxData[u16BuffLen] = 0;
 			snprintf(tcDebug, 100, "[RX] (%u) : %s\r\n", u16BuffLen, tcRxData);
 			eUartDrv_ePrint(tcDebug);
