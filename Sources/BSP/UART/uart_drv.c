@@ -81,8 +81,7 @@ TeUartDrv_eRetval eUartDrv_eTransmit(const uint8_t *Fpu8TxBuffer, uint16_t u16Fu
 	}
 	else
 	{
-		uint32_t u32Timeout = (Fu32Timeout != 0) ? Fu32Timeout : DeUartDrv_iUartDefTimeout;
-		if (xQueueSemaphoreTake(stUartHandle.xSemaTx, pdMS_TO_TICKS(u32Timeout)) == pdTRUE)
+		if (xQueueSemaphoreTake(stUartHandle.xSemaTx, pdMS_TO_TICKS(Fu32Timeout)) == pdTRUE)
 		{
 			uint16_t u16Index = 0;
 			uint8_t *pu8Data = (uint8_t *)Fpu8TxBuffer;
@@ -109,7 +108,6 @@ TeUartDrv_eRetval eUartDrv_eTransmit(const uint8_t *Fpu8TxBuffer, uint16_t u16Fu
 TeUartDrv_eRetval eUartDrv_eReceive(uint8_t *Fpu8RxBuffer, uint16_t *Fu16ReceiveSize, uint32_t Fu32Timeout)
 {
 	TeUartDrv_eRetval eRet = CeUartDrv_eSuccess;
-	uint32_t u32Timeout = (Fu32Timeout != 0) ? Fu32Timeout : DeUartDrv_iUartDefTimeout;
 	if (!stUartHandle.u8ConfigFlag)
 	{
 		eRet = CeUartDrv_eNotConfigured;
@@ -122,13 +120,13 @@ TeUartDrv_eRetval eUartDrv_eReceive(uint8_t *Fpu8RxBuffer, uint16_t *Fu16Receive
 	{
 		eRet = CeUartDrv_eBadParameter;
 	}
-	else if (eUartDrv_eDataAvailable(u32Timeout) != CeUartDrv_eSuccess)
+	else if (eUartDrv_eDataAvailable(Fu32Timeout) != CeUartDrv_eSuccess)
 	{
 		eRet = CeUartDrv_eNoDataAvailable;
 	}
 	else
 	{
-		if (xQueueSemaphoreTake(stUartHandle.xSemaRx, pdMS_TO_TICKS(u32Timeout)) == pdTRUE)
+		if (xQueueSemaphoreTake(stUartHandle.xSemaRx, pdMS_TO_TICKS(Fu32Timeout)) == pdTRUE)
 		{
 			uint8_t *pu8Rdx = Fpu8RxBuffer;
 			uint16_t u16Cnt = 0;
@@ -153,10 +151,12 @@ TeUartDrv_eRetval eUartDrv_eReceive(uint8_t *Fpu8RxBuffer, uint16_t *Fu16Receive
 }
 
 /****************************************************************************
+ * Expect zero (\0) terminated string buffer
  ****************************************************************************/
 TeUartDrv_eRetval eUartDrv_ePrint(char *FpcPrintText)
 {
-	return (eUartDrv_eTransmit((const uint8_t *)FpcPrintText, strlen(FpcPrintText), 0u));
+	// Basic wrapper
+	return (eUartDrv_eTransmit((const uint8_t *)FpcPrintText, strlen(FpcPrintText), DeUartDrv_iUartPrintTimeout));
 }
 
 /****************************************************************************
@@ -164,8 +164,7 @@ TeUartDrv_eRetval eUartDrv_ePrint(char *FpcPrintText)
 TeUartDrv_eRetval eUartDrv_eDataAvailable(uint32_t Fu32Timeout)
 {
 	TeUartDrv_eRetval eRet = CeUartDrv_eSuccess;
-	uint32_t u32Timeout = (Fu32Timeout != 0) ? Fu32Timeout : DeUartDrv_iUartDefTimeout;
-	if (xQueueSemaphoreTake(stUartHandle.xSemaRx, pdMS_TO_TICKS(u32Timeout)) == pdTRUE)
+	if (xQueueSemaphoreTake(stUartHandle.xSemaRx, pdMS_TO_TICKS(Fu32Timeout)) == pdTRUE)
 	{
 		if (eDataQueueDataAvailable(&stUartDrv_iRxQueue) != CeQueue_Ok)
 		{
