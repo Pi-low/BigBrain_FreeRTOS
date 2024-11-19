@@ -2,16 +2,19 @@
 #include "uart_drv_int.h"
 
 TstUartDrv_iHandle stUartHandle = {0};
+
+#if (DeUartDrv_iUartQModeEn)
 static uint8_t tu8UartDrv_iRxBuffer[DeUartDrv_iBufferSize];
 // static uint8_t tu8UartDrv_iTxBuffer[DeUartDrv_iBufferSize];
-
 static TstUartDrv_iQueue stUartDrv_iRxQueue;
 // static TstUartDrv_iQueue stUartDrv_iTxQueue;
-
 static TeQueueRet eDataQueueInit(TstUartDrv_iQueue *FpstQueue, uint8_t *Fpu8Buffer, uint8_t Fu8Size);
 static TeQueueRet eDataQueuePut(TstUartDrv_iQueue *FpstQueue, uint8_t Fu8Data);
 static TeQueueRet eDataQueueGet(TstUartDrv_iQueue *FpstQueue, uint8_t *Fpu8Data);
 static TeQueueRet eDataQueueDataAvailable(TstUartDrv_iQueue *FpstQueue);
+#else
+QueueHandle_t QueueHandleRx;
+#endif
 
 // static tfUartDrv_eCallback *pfUartDrv_iU1Notify;
 // static tfUartDrv_eCallback *pfUartDrv_iU2Notify;
@@ -41,8 +44,12 @@ TeUartDrv_eRetval eUartDrv_eInit(TstUartDrv_eConfig *FpstUartConfig)
 	}
 	else if ((stUartHandle.xSemaTx != NULL) && (stUartHandle.xSemaRx != NULL))
 	{
+#if (DeUartDrv_iUartQModeEn)
 		eDataQueueInit(&stUartDrv_iRxQueue, tu8UartDrv_iRxBuffer, DeUartDrv_iBufferSize);
 		// u8DataQueueInit(&stUartDrv_iTxQueue, tu8UartDrv_iTxBuffer, DeUartDrv_iBufferSize);
+#else
+	QueueHandleRx = xQueueCreate(DeUartDrv_iBufferSize, sizeof(uint8_t));
+#endif
 		IEC0bits.U1TXIE = 0;
 		IEC0bits.U1RXIE = 0;
 
@@ -126,6 +133,7 @@ TeUartDrv_eRetval eUartDrv_eReceive(uint8_t *Fpu8RxBuffer, uint16_t *Fu16Receive
 	}
 	else
 	{
+#if (DeUartDrv_iUartQModeEn)
 		if (xQueueSemaphoreTake(stUartHandle.xSemaRx, pdMS_TO_TICKS(Fu32Timeout)) == pdTRUE)
 		{
 			uint8_t *pu8Rdx = Fpu8RxBuffer;
@@ -137,9 +145,18 @@ TeUartDrv_eRetval eUartDrv_eReceive(uint8_t *Fpu8RxBuffer, uint16_t *Fu16Receive
 				u16Cnt += (eQRet == CeQueue_Ok) ? 1 : 0;
 				pu8Rdx++;
 			} while ((u16Cnt < *Fu16ReceiveSize) && (eQRet == CeQueue_Ok));
-
 			*Fu16ReceiveSize = u16Cnt;
 			xSemaphoreGive(stUartHandle.xSemaRx);
+#else
+	uint8_t *pu8Rdx = Fpu8RxBuffer;
+	BaseType_t xQueueRet;
+	do
+	{
+		xQueueRet = xQueueCRReceive(QueueHandleRx, pu8Rdx, (TickType_t)Fu32Timeout);
+		pu8Rdx++;
+	}
+	
+#endif
 		}
 		else
 		{
@@ -166,10 +183,12 @@ TeUartDrv_eRetval eUartDrv_eDataAvailable(uint32_t Fu32Timeout)
 	TeUartDrv_eRetval eRet = CeUartDrv_eSuccess;
 	if (xQueueSemaphoreTake(stUartHandle.xSemaRx, pdMS_TO_TICKS(Fu32Timeout)) == pdTRUE)
 	{
+#if (DeUartDrv_iUartQModeEn)
 		if (eDataQueueDataAvailable(&stUartDrv_iRxQueue) != CeQueue_Ok)
 		{
 			eRet = CeUartDrv_eError;
 		}
+#endif
 		xSemaphoreGive(stUartHandle.xSemaRx);
 	}
 	else
@@ -188,10 +207,13 @@ void __attribute__((interrupt, no_auto_psv)) _U1RXInterrupt(void)
 	// portENTER_CRITICAL();
 	IFS0bits.U1RXIF = 0;
 	uint8_t u8data = U1RXREG;
+#if (DeUartDrv_iUartQModeEn)
 	eDataQueuePut(&stUartDrv_iRxQueue, u8data);
+#endif
 	// portEXIT_CRITICAL();
 }
 
+#if (DeUartDrv_iUartQModeEn)
 static TeQueueRet eDataQueueInit(TstUartDrv_iQueue *FpstQueue, uint8_t *Fpu8Buffer, uint8_t Fu8Size)
 {
 	TeQueueRet eRet = CeQueue_Error;
@@ -276,3 +298,4 @@ static TeQueueRet eDataQueueDataAvailable(TstUartDrv_iQueue *FpstQueue)
 	}
 	return (eRet);
 }
+#endif //DeUartDrv_iUartQModeEn

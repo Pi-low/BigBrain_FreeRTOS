@@ -30,8 +30,14 @@ void main(void)
 	CLOCK_Initialize();
 	TstUartDrv_eConfig stUartCfg = {115200, CeUartDrv_e8PN, CeUartDrv_eStop1Bit};
 	eUartDrv_eInit(&stUartCfg);
-	xTaskCreate(vApp_TaskMain, "Main", configMINIMAL_STACK_SIZE * 3, NULL, tskIDLE_PRIORITY + 1, NULL);
-	xTaskCreate(vApp_TaskSerial, "Serial", configMINIMAL_STACK_SIZE * 3, NULL, tskIDLE_PRIORITY + 1, NULL);
+	if (xTaskCreate(vApp_TaskMain, "Main", configMINIMAL_STACK_SIZE * 3, NULL, tskIDLE_PRIORITY + 1, NULL) != pdTRUE)
+	{
+		eUartDrv_ePrint("Could not create \"Main\" task\r\n");
+	}
+	if (xTaskCreate(vApp_TaskSerial, "Serial", configMINIMAL_STACK_SIZE * 3, NULL, tskIDLE_PRIORITY + 1, NULL) != pdTRUE)
+	{
+		eUartDrv_ePrint("Could not create \"Serial\" task\r\n");
+	}
 	__builtin_enable_interrupts();
 	vTaskStartScheduler();
 }
