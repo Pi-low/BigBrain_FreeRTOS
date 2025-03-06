@@ -14,12 +14,7 @@
 #include <stdint.h>
 #include <string.h>
 
-#include "FreeRTOS.h"
-#include "task.h"
-#include "system.h"
-#include "Pin_drv.h"
-#include "uart_drv.h"
-#include "Config.h"
+#include "bsp.h"
 
 static void vApp_TaskMain(void *pvParameters);
 static void vApp_TaskSerial(void *pvParameters);
@@ -30,6 +25,7 @@ void main(void)
 	CLOCK_Initialize();
 	TstUartDrv_eConfig stUartCfg = {115200, CeUartDrv_e8PN, CeUartDrv_eStop1Bit};
 	eUartDrv_eInit(&stUartCfg);
+	vBspStart();
 	if (xTaskCreate(vApp_TaskMain, "Main", configMINIMAL_STACK_SIZE * 3, NULL, tskIDLE_PRIORITY + 1, NULL) != pdTRUE)
 	{
 		eUartDrv_ePrint("Could not create \"Main\" task\r\n");
