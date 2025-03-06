@@ -27,6 +27,8 @@
         </logicalFolder>
         <logicalFolder name="CONFIG" displayName="CONFIG" projectFiles="true">
           <itemPath>Sources/BSP/CONFIG/uart_drv_cfg.h</itemPath>
+          <itemPath>Sources/BSP/CONFIG/can_drv_cfg.h</itemPath>
+          <itemPath>Sources/BSP/CONFIG/cli_mng_cfg.h</itemPath>
         </logicalFolder>
         <logicalFolder name="CORE" displayName="CORE" projectFiles="true">
           <logicalFolder name="MCU" displayName="MCU" projectFiles="true">
@@ -34,6 +36,8 @@
             <itemPath>Sources/BSP/CORE/MCU/pragma.c</itemPath>
             <itemPath>Sources/BSP/CORE/MCU/system.h</itemPath>
           </logicalFolder>
+          <itemPath>Sources/BSP/CORE/bsp.h</itemPath>
+          <itemPath>Sources/BSP/CORE/mainbsp.c</itemPath>
         </logicalFolder>
         <logicalFolder name="IO" displayName="IO" projectFiles="true">
           <itemPath>Sources/BSP/IO/Pin_drv.c</itemPath>
@@ -47,6 +51,11 @@
           <itemPath>Sources/BSP/UART/uart_drv_int.h</itemPath>
         </logicalFolder>
         <logicalFolder name="f2" displayName="UTILS" projectFiles="true">
+          <logicalFolder name="CLI" displayName="CLI" projectFiles="true">
+            <itemPath>Sources/BSP/UTILS/CLI/cli_mng.c</itemPath>
+            <itemPath>Sources/BSP/UTILS/CLI/cli_mng.h</itemPath>
+            <itemPath>Sources/BSP/UTILS/CLI/cli_mng_int.h</itemPath>
+          </logicalFolder>
         </logicalFolder>
         <logicalFolder name="f1" displayName="VERSION" projectFiles="true">
           <itemPath>Sources/BSP/VERSION/version.c</itemPath>
@@ -117,9 +126,9 @@
         <targetDevice>dsPIC33EP512GM604</targetDevice>
         <targetHeader></targetHeader>
         <targetPluginBoard></targetPluginBoard>
-        <platformTool>ICD3PlatformTool</platformTool>
+        <platformTool>noID</platformTool>
         <languageToolchain>XC16</languageToolchain>
-        <languageToolchainVersion>2.10</languageToolchainVersion>
+        <languageToolchainVersion>2.00</languageToolchainVersion>
         <platform>3</platform>
       </toolsSet>
       <packs>
@@ -244,7 +253,7 @@
         <property key="general-code-protect" value="no_code_protect"/>
         <property key="general-write-protect" value="no_write_protect"/>
         <property key="generate-cross-reference-file" value="false"/>
-        <property key="heap-size" value="5120"/>
+        <property key="heap-size" value="8192"/>
         <property key="input-libraries" value=""/>
         <property key="linker-stack" value="true"/>
         <property key="linker-symbols" value=""/>
@@ -271,7 +280,7 @@
       <C30Global>
         <property key="combine-sourcefiles" value="false"/>
         <property key="common-include-directories"
-                  value="Sources\FreeRTOS;Sources\FreeRTOS\include;Sources\FreeRTOS\portable\Common;Sources\FreeRTOS\portable\MemMang;Sources\FreeRTOS\portable\MPLAB;Sources\APP;Sources\BSP\CORE\MCU;Sources\BSP;Sources\BSP\UART;Sources\BSP\CONFIG;Sources\BSP\IO;Sources\BSP\VERSION;Sources\BSP\UTILS;Sources\FreeRTOS-Plus-CLI"/>
+                  value="Sources\FreeRTOS;Sources\FreeRTOS\include;Sources\FreeRTOS\portable\Common;Sources\FreeRTOS\portable\MemMang;Sources\FreeRTOS\portable\MPLAB;Sources\APP;Sources\BSP\CORE\MCU;Sources\BSP;Sources\BSP\UART;Sources\BSP\CONFIG;Sources\BSP\IO;Sources\BSP\VERSION;Sources\BSP\UTILS;Sources\FreeRTOS-Plus-CLI;Sources\BSP\UTILS\CLI;Sources\BSP\CORE"/>
         <property key="dual-boot-partition" value="0"/>
         <property key="fast-math" value="false"/>
         <property key="generic-16-bit" value="false"/>
@@ -338,11 +347,7 @@
         <property key="debugoptions.debug-startup" value="Use system settings"/>
         <property key="debugoptions.reset-behaviour" value="Use system settings"/>
         <property key="debugoptions.useswbreakpoints" value="false"/>
-        <property key="event.recorder.debugger.behavior" value="Running"/>
-        <property key="event.recorder.enabled" value="false"/>
-        <property key="event.recorder.scvd.files" value=""/>
         <property key="hwtoolclock.frcindebug" value="false"/>
-        <property key="lastid" value=""/>
         <property key="memories.aux" value="false"/>
         <property key="memories.bootflash" value="false"/>
         <property key="memories.configurationmemory" value="true"/>
@@ -376,6 +381,18 @@
       <item path="Sources/FreeRTOS/portable/MemMang/heap_1.c"
             ex="true"
             overriding="false">
+        <C30>
+        </C30>
+        <C30-AR>
+        </C30-AR>
+        <C30-AS>
+        </C30-AS>
+        <C30-CO>
+        </C30-CO>
+        <C30-LD>
+        </C30-LD>
+        <C30Global>
+        </C30Global>
       </item>
       <item path="Sources/FreeRTOS/portable/MemMang/heap_2.c"
             ex="true"
@@ -537,9 +554,9 @@
         <targetDevice>dsPIC33EP512GM604</targetDevice>
         <targetHeader></targetHeader>
         <targetPluginBoard></targetPluginBoard>
-        <platformTool>ICD3PlatformTool</platformTool>
+        <platformTool>noID</platformTool>
         <languageToolchain>XC16</languageToolchain>
-        <languageToolchainVersion>2.10</languageToolchainVersion>
+        <languageToolchainVersion>2.00</languageToolchainVersion>
         <platform>3</platform>
       </toolsSet>
       <packs>
@@ -691,7 +708,7 @@
       <C30Global>
         <property key="combine-sourcefiles" value="false"/>
         <property key="common-include-directories"
-                  value="Sources\FreeRTOS;Sources\FreeRTOS\include;Sources\FreeRTOS\portable\Common;Sources\FreeRTOS\portable\MemMang;Sources\FreeRTOS\portable\MPLAB;Sources\APP;Sources\BSP\CORE\MCU;Sources\BSP;Sources\BSP\UART;Sources\BSP\CONFIG;Sources\BSP\IO;Sources\BSP\VERSION;Sources\BSP\UTILS;Sources\FreeRTOS-Plus-CLI"/>
+                  value="Sources\FreeRTOS;Sources\FreeRTOS\include;Sources\FreeRTOS\portable\Common;Sources\FreeRTOS\portable\MemMang;Sources\FreeRTOS\portable\MPLAB;Sources\APP;Sources\BSP\CORE\MCU;Sources\BSP;Sources\BSP\UART;Sources\BSP\CONFIG;Sources\BSP\IO;Sources\BSP\VERSION;Sources\BSP\UTILS;Sources\FreeRTOS-Plus-CLI;Sources\BSP\UTILS\CLI;Sources\BSP\CORE"/>
         <property key="dual-boot-partition" value="0"/>
         <property key="fast-math" value="false"/>
         <property key="generic-16-bit" value="false"/>
@@ -758,11 +775,7 @@
         <property key="debugoptions.debug-startup" value="Use system settings"/>
         <property key="debugoptions.reset-behaviour" value="Use system settings"/>
         <property key="debugoptions.useswbreakpoints" value="false"/>
-        <property key="event.recorder.debugger.behavior" value="Running"/>
-        <property key="event.recorder.enabled" value="false"/>
-        <property key="event.recorder.scvd.files" value=""/>
         <property key="hwtoolclock.frcindebug" value="false"/>
-        <property key="lastid" value=""/>
         <property key="memories.aux" value="false"/>
         <property key="memories.bootflash" value="false"/>
         <property key="memories.configurationmemory" value="true"/>
@@ -796,6 +809,18 @@
       <item path="Sources/FreeRTOS/portable/MemMang/heap_1.c"
             ex="true"
             overriding="false">
+        <C30>
+        </C30>
+        <C30-AR>
+        </C30-AR>
+        <C30-AS>
+        </C30-AS>
+        <C30-CO>
+        </C30-CO>
+        <C30-LD>
+        </C30-LD>
+        <C30Global>
+        </C30Global>
       </item>
       <item path="Sources/FreeRTOS/portable/MemMang/heap_2.c"
             ex="true"

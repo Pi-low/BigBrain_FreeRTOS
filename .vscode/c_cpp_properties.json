@@ -4,15 +4,15 @@
             "name": "MPLABX",
             "includePath": [
                 "${workspaceFolder}/**",
-                "C:/Program Files/Microchip/xc16/v2.10/include",
-                "C:/Program Files/Microchip/MPLABX/v6.20/packs/Microchip/dsPIC33E-GM-GP-MC-GU-MU_DFP/1.5.258/xc16/support/generic/h",
-                "C:/Program Files/Microchip/MPLABX/v6.20/packs/Microchip/dsPIC33E-GM-GP-MC-GU-MU_DFP/1.5.258/xc16/support/dsPIC33E/h"
+                "C:/Program Files/Microchip/xc16/v2.00/include",
+                "C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/dsPIC33EV-GM-00X-10X_DFP/1.3.79/xc16/support/generic/h",
+                "C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/dsPIC33EV-GM-00X-10X_DFP/1.3.79/xc16/support/dsPIC33E/h"
             ],
             "defines": [
                 "_DEBUG",
                 "UNICODE",
                 "_UNICODE",
-                "__dsPIC33EP512GM706__"
+                "__dsPIC33EP512GM604__"
             ],
             "intelliSenseMode": "clang-x86",
             "compilerPath": "",
