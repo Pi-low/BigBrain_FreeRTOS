@@ -1,9 +1,13 @@
 #ifndef _CONFIG_H_
 #define _CONFIG_H_
 
-#include "FreeRTOSConfig.h"
+#include "FreeRTOS.h"
 
 #define FLAG_CLI_MNG_ACTIVE	1
+
+#if (configUSE_16_BIT_TICKS)
+#define DeBsp_eWaitForever	(0xFFFF)
+#endif
 
 typedef enum
 {

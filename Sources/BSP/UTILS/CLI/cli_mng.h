@@ -11,7 +11,6 @@
 
 #ifdef _CLI_MNG_ACTIVE
 
-
 #endif // _CLI_MNG_ACTIVE
 
 #endif //_CLI_MNG_H_

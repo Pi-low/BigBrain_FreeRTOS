@@ -88,7 +88,7 @@ TeUartDrv_eRetval eUartDrv_eTransmit(const uint8_t *Fpu8TxBuffer, uint16_t u16Fu
 	}
 	else
 	{
-		if (xQueueSemaphoreTake(stUartHandle.xSemaTx, pdMS_TO_TICKS(Fu32Timeout)) == pdTRUE)
+		if (xQueueSemaphoreTake(stUartHandle.xSemaTx, Fu32Timeout) == pdTRUE)
 		{
 			uint16_t u16Index = 0;
 			uint8_t *pu8Data = (uint8_t *)Fpu8TxBuffer;
@@ -134,7 +134,7 @@ TeUartDrv_eRetval eUartDrv_eReceive(uint8_t *Fpu8RxBuffer, uint16_t *Fu16Receive
 	else
 	{
 #if (DeUartDrv_iUartQModeEn)
-		if (xQueueSemaphoreTake(stUartHandle.xSemaRx, pdMS_TO_TICKS(Fu32Timeout)) == pdTRUE)
+		if (xQueueSemaphoreTake(stUartHandle.xSemaRx, Fu32Timeout) == pdTRUE)
 		{
 			uint8_t *pu8Rdx = Fpu8RxBuffer;
 			uint16_t u16Cnt = 0;
@@ -148,13 +148,13 @@ TeUartDrv_eRetval eUartDrv_eReceive(uint8_t *Fpu8RxBuffer, uint16_t *Fu16Receive
 			*Fu16ReceiveSize = u16Cnt;
 			xSemaphoreGive(stUartHandle.xSemaRx);
 #else
-	uint8_t *pu8Rdx = Fpu8RxBuffer;
-	BaseType_t xQueueRet;
-	do
-	{
-		xQueueRet = xQueueCRReceive(QueueHandleRx, pu8Rdx, (TickType_t)Fu32Timeout);
-		pu8Rdx++;
-	}
+			uint8_t *pu8Rdx = Fpu8RxBuffer;
+			BaseType_t xQueueRet;
+			do
+			{
+				xQueueRet = xQueueCRReceive(QueueHandleRx, pu8Rdx, (TickType_t)Fu32Timeout);
+				pu8Rdx++;
+			}
 	
 #endif
 		}
@@ -230,6 +230,8 @@ static TeQueueRet eDataQueueInit(TstUartDrv_iQueue *FpstQueue, uint8_t *Fpu8Buff
 	return (eRet);
 }
 
+/****************************************************************************
+ ****************************************************************************/
 static TeQueueRet eDataQueuePut(TstUartDrv_iQueue *FpstQueue, uint8_t Fu8Data)
 {
 	TeQueueRet eRet = CeQueue_Ok;
@@ -258,6 +260,8 @@ static TeQueueRet eDataQueuePut(TstUartDrv_iQueue *FpstQueue, uint8_t Fu8Data)
 	return (eRet);
 }
 
+/****************************************************************************
+ ****************************************************************************/
 static TeQueueRet eDataQueueGet(TstUartDrv_iQueue *FpstQueue, uint8_t *Fpu8Data)
 {
 	TeQueueRet eRet = CeQueue_Ok;
@@ -289,6 +293,8 @@ static TeQueueRet eDataQueueGet(TstUartDrv_iQueue *FpstQueue, uint8_t *Fpu8Data)
 	return (eRet);
 }
 
+/****************************************************************************
+ ****************************************************************************/
 static TeQueueRet eDataQueueDataAvailable(TstUartDrv_iQueue *FpstQueue)
 {
 	TeQueueRet eRet = CeQueue_Ok;
