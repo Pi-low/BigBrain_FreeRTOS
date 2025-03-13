@@ -4,6 +4,7 @@
 #include "FreeRTOS.h"
 
 #define FLAG_CLI_MNG_ACTIVE	1
+#define FLAG_CAN_MNG_ACTIVE 1
 
 #if (configUSE_16_BIT_TICKS)
 #define DeBsp_eWaitForever	(0xFFFF)

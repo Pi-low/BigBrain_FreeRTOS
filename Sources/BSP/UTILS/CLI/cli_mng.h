@@ -11,6 +11,9 @@
 
 #ifdef _CLI_MNG_ACTIVE
 
+extern void vCliMng_eEnableCli(void);
+extern void vCliMng_eDisableCli(void);
+
 #endif // _CLI_MNG_ACTIVE
 
 #endif //_CLI_MNG_H_

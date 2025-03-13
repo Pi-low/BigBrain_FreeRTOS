@@ -15,27 +15,26 @@
 #include <string.h>
 
 #include "bsp.h"
+#include "AppCli.h"
 
 static void vApp_TaskMain(void *pvParameters);
-static void vApp_TaskSerial(void *pvParameters);
+// static void vApp_TaskSerial(void *pvParameters);
 
-void main(void)
+int main(void)
 {
-	PIN_MANAGER_Initialize();
-	CLOCK_Initialize();
-	TstUartDrv_eConfig stUartCfg = {115200, CeUartDrv_e8PN, CeUartDrv_eStop1Bit};
-	eUartDrv_eInit(&stUartCfg);
 	vBspStart();
+	vAppCli_Init();
+	eUartDrv_ePrint("Hello world !\r\n");
 	if (xTaskCreate(vApp_TaskMain, "Main", configMINIMAL_STACK_SIZE * 3, NULL, tskIDLE_PRIORITY + 1, NULL) != pdTRUE)
 	{
 		eUartDrv_ePrint("Could not create \"Main\" task\r\n");
 	}
-	if (xTaskCreate(vApp_TaskSerial, "Serial", configMINIMAL_STACK_SIZE * 3, NULL, tskIDLE_PRIORITY + 1, NULL) != pdTRUE)
-	{
-		eUartDrv_ePrint("Could not create \"Serial\" task\r\n");
-	}
-	__builtin_enable_interrupts();
+	// if (xTaskCreate(vApp_TaskSerial, "Serial", configMINIMAL_STACK_SIZE * 3, NULL, tskIDLE_PRIORITY + 1, NULL) != pdTRUE)
+	// {
+	// 	eUartDrv_ePrint("Could not create \"Serial\" task\r\n");
+	// }
 	vTaskStartScheduler();
+	return (pdFALSE);
 }
 
 // void vApplicationIdleHook( void )
@@ -57,23 +56,20 @@ static void vApp_TaskMain(void *pvParameters)
 	}
 }
 
-static void vApp_TaskSerial(void *pvParameters)
-{
-	pvParameters = pvParameters;
-	eUartDrv_ePrint("Serial Task init\r\n");
-	uint16_t u16BuffLen = 0;
-	char tcRxData[100] = {0};
-	char tcDebug[200] = {0};
-	TickType_t xLastTick = xTaskGetTickCount();
-	for (;;)
-	{
-		u16BuffLen = 100;
-		if (eUartDrv_eReceive((uint8_t *)tcRxData, &u16BuffLen, 50) == CeUartDrv_eSuccess)
-		{
-			tcRxData[u16BuffLen] = 0;
-			snprintf(tcDebug, 200, "[RX] (%u) : %s\r\n", u16BuffLen, tcRxData);
-			eUartDrv_ePrint(tcDebug);
-		}
-		xTaskDelayUntil(&xLastTick, 100);
-	}
-}
+// static void vApp_TaskSerial(void *pvParameters)
+// {
+// 	pvParameters = pvParameters;
+// 	eUartDrv_ePrint("Serial Task init\r\n");
+// 	TickType_t xLastTick = xTaskGetTickCount();
+// 	for (;;)
+// 	{
+// 		u16BuffLen = 100;
+// 		if (eUartDrv_eReceive((uint8_t *)tcRxData, &u16BuffLen, 50) == CeUartDrv_eSuccess)
+// 		{
+// 			tcRxData[u16BuffLen] = 0;
+// 			snprintf(tcDebug, 200, "[RX] (%u) : %s\r\n", u16BuffLen, tcRxData);
+// 			eUartDrv_ePrint(tcDebug);
+// 		}
+// 		xTaskDelayUntil(&xLastTick, 100);
+// 	}
+// }

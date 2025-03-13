@@ -8,6 +8,7 @@
 
 #ifdef _CLI_MNG_ACTIVE
 #include "cli_mng_cfg.h"
+#include "uart_drv_int.h"
 
 extern void vCliMng_eTask(void *pvParameters);
 

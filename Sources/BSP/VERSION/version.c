@@ -16,7 +16,7 @@
  * Private function prototypes
  *****************************************************************************/
 #ifdef _DEBUG
-const char __attribute__((address(0x280), space(prog))) SWDescription[128] = __DATE__" "__TIME__" : BigBrain tester application";
+const char __attribute__((address(0x280), space(prog))) SWDescription[128] = __DATE__" "__TIME__" : BigBrain FreeRTOS TestApp";
 #else
 const char __attribute__((address(0x280), space(prog))) SWDescription[128] = __DATE__" "__TIME__" : BigBrain FreeRTOS";
 #endif

@@ -1,7 +1,6 @@
 #define _CLI_MNG_C_
 
 #include "cli_mng_int.h"
-#include "uart_drv.h"
 
 #ifdef _CLI_MNG_ACTIVE
 
@@ -21,13 +20,19 @@ void vCliMng_eTask(void *pvParameters)
 		if (eUartDrv_eReceive(pu8Wd, &u16RxCnt, DeBsp_eWaitForever) == CeUartDrv_eSuccess)
 		{
 			u16DataCnt += u16RxCnt;
-			pu8Cr = strchr((const char*)pu8Wd, DeCliMng_iCR);
+			pu8Cr = (uint8_t*) strchr((const char*)pu8Wd, DeCliMng_iCR);
 			if ((pu8Cr != NULL) || (u16DataCnt >= DeCliMng_iCmdBufSize)) //end of line, buffer full, process the receive command
 			{
 				*pu8Cr = 0; // trim <cr> char
 				if (u8CliMng_iEnableFlag)
 				{
-					while (FreeRTOS_CLIProcessCommand((const char*)tu8CliMng_iCmdBuff, (char*) tu8CliMng_iOutBuff, DeCliMng_iOutBufSize) != pdFALSE);
+					BaseType_t xMoreDataToFollow;
+					do
+					{
+						xMoreDataToFollow = FreeRTOS_CLIProcessCommand((const char*)tu8CliMng_iCmdBuff, (char*) tu8CliMng_iOutBuff, DeCliMng_iOutBufSize);
+						eUartDrv_ePrint((char*)tu8CliMng_iOutBuff);
+					}
+					while (xMoreDataToFollow != pdFALSE);
 				}
 			}
 			else if (u16DataCnt < DeCliMng_iCmdBufSize)
@@ -38,14 +43,25 @@ void vCliMng_eTask(void *pvParameters)
 		}
 		else if (u16DataCnt >= DeCliMng_iCmdBufSize)
 		{
-			// end of ile not detected, buffer full, flush buffer
+			// end of line not detected, buffer full, flush buffer
 			memset(tu8CliMng_iCmdBuff, 0, DeCliMng_iCmdBufSize);
 			u16DataCnt = 0;
 			u16RxCnt = DeCliMng_iSubBufSize;
 			pu8Wd = tu8CliMng_iCmdBuff;
 		}
+		__builtin_clrwdt();
 		xTaskDelayUntil(&xLastTick, pdMS_TO_TICKS(DeCliMng_iTaskPeriod));
 	}
+}
+
+void vCliMng_eEnableCli(void)
+{
+	u8CliMng_iEnableFlag = 1;
+}
+
+void vCliMng_eDisableCli(void)
+{
+	u8CliMng_iEnableFlag = 0;
 }
 
 #endif // _CLI_MNG_ACTIVE

@@ -1,5 +1,5 @@
 #ifndef _UART_DRV_INT_H_
-#define _UART_DRV_INT_H
+#define _UART_DRV_INT_H_
 
 #include <xc.h>
 #include <stdio.h>
@@ -12,10 +12,10 @@
 #include "queue.h"
 #include "semphr.h"
 
+#include "uart_drv_cfg.h"
 #include "uart_drv.h"
 
 #ifdef  _UART_DRV_C_
-#include "uart_drv_cfg.h"
 typedef enum
 {
 	CeQueue_Ok = 0,

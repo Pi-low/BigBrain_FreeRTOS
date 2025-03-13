@@ -15,7 +15,7 @@
 #define DeCliMng_iCRLF			"\r\n"
 #endif // _CLI_MNG_C_
 
-#define DeCliMng_iTaskPeriod	20 // in ms
+#define DeCliMng_iTaskPeriod	100 // in ms
 #define DeCliMng_iTaskPriority	(tskIDLE_PRIORITY + 1)
 #define DeCliMng_iTaskStackSize	(configMINIMAL_STACK_SIZE * 4)
 #define DeCliMng_iTaskName		"CliMng"
