@@ -18,7 +18,6 @@
 #include "AppCli.h"
 
 static void vApp_TaskMain(void *pvParameters);
-// static void vApp_TaskSerial(void *pvParameters);
 
 int main(void)
 {
@@ -29,10 +28,8 @@ int main(void)
 	{
 		eUartDrv_ePrint("Could not create \"Main\" task\r\n");
 	}
-	// if (xTaskCreate(vApp_TaskSerial, "Serial", configMINIMAL_STACK_SIZE * 3, NULL, tskIDLE_PRIORITY + 1, NULL) != pdTRUE)
-	// {
-	// 	eUartDrv_ePrint("Could not create \"Serial\" task\r\n");
-	// }
+
+    __builtin_enable_interrupts();
 	vTaskStartScheduler();
 	return (pdFALSE);
 }
@@ -55,21 +52,3 @@ static void vApp_TaskMain(void *pvParameters)
 		xTaskDelayUntil(&xLastTick, 1000);
 	}
 }
-
-// static void vApp_TaskSerial(void *pvParameters)
-// {
-// 	pvParameters = pvParameters;
-// 	eUartDrv_ePrint("Serial Task init\r\n");
-// 	TickType_t xLastTick = xTaskGetTickCount();
-// 	for (;;)
-// 	{
-// 		u16BuffLen = 100;
-// 		if (eUartDrv_eReceive((uint8_t *)tcRxData, &u16BuffLen, 50) == CeUartDrv_eSuccess)
-// 		{
-// 			tcRxData[u16BuffLen] = 0;
-// 			snprintf(tcDebug, 200, "[RX] (%u) : %s\r\n", u16BuffLen, tcRxData);
-// 			eUartDrv_ePrint(tcDebug);
-// 		}
-// 		xTaskDelayUntil(&xLastTick, 100);
-// 	}
-// }

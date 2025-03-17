@@ -34,6 +34,7 @@ void vCliMng_eTask(void *pvParameters)
 					}
 					while (xMoreDataToFollow != pdFALSE);
 				}
+				memset(tu8CliMng_iCmdBuff, 0, DeCliMng_iCmdBufSize);
 			}
 			else if (u16DataCnt < DeCliMng_iCmdBufSize)
 			{

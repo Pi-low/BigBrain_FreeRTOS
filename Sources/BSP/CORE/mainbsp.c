@@ -18,6 +18,5 @@ void vBspStart(void)
         eUartDrv_ePrint("Could not create CliMng task");
     }
 #endif
-    __builtin_enable_interrupts();
 }
 
